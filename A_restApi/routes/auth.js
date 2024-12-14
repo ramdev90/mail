@@ -25,11 +25,15 @@ router.post('/generateEmail', async (req, res) => {
                         "role": "system",
                         "content": "You are a helpful assistant that can generate email subjects and email content based on the provided input."
                     },
+                    //                     {
+                    //                         "role": "user",
+                    //                         "content": `Based on the following data, generate a subject and an email in plain JSON format only with strings (subject and email keys):
+
+                    // 66720178745\tjoinhashtaghr\thashtagHR.com\thttps://www.instagram.com/joinhashtaghr/\thttps://instagram.fraj3-2.fna.fbcdn.net/v/t51.2885-19/440626195_823049123011045_3508093147676029276_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=instagram.fraj3-2.fna.fbcdn.net&_nc_cat=101&_nc_ohc=5wZAzLKfPF0Q7kNvgGjTL08&_nc_gid=a3259e254d864f2a8e5ae6aff14c83b2&edm=AEF8tYYBAAAA&ccb=7-5&oh=00_AYA1UCP3lX56p1qMylYyihTLMwXm0pI_tA81ni9St3WYgg&oe=675478A8&_nc_sid=1e20d2\tNo\tNo\t1068\t0\t#HR\nFind jobs, make connections and hire smarter—everything you need for career success, in one powerful platform!\thello@hashtaghr.com\t140\tNO\tYES\thttps://hashtaghr.com`
+                    //                     }
                     {
                         "role": "user",
-                        "content": `Based on the following data, generate a subject and an email in plain JSON format only with strings (subject and email keys):
-
-66720178745\tjoinhashtaghr\thashtagHR.com\thttps://www.instagram.com/joinhashtaghr/\thttps://instagram.fraj3-2.fna.fbcdn.net/v/t51.2885-19/440626195_823049123011045_3508093147676029276_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_ht=instagram.fraj3-2.fna.fbcdn.net&_nc_cat=101&_nc_ohc=5wZAzLKfPF0Q7kNvgGjTL08&_nc_gid=a3259e254d864f2a8e5ae6aff14c83b2&edm=AEF8tYYBAAAA&ccb=7-5&oh=00_AYA1UCP3lX56p1qMylYyihTLMwXm0pI_tA81ni9St3WYgg&oe=675478A8&_nc_sid=1e20d2\tNo\tNo\t1068\t0\t#HR\nFind jobs, make connections and hire smarter—everything you need for career success, in one powerful platform!\thello@hashtaghr.com\t140\tNO\tYES\thttps://hashtaghr.com`
+                        "content": prompt
                     }
                 ],
                 max_tokens: 400,
@@ -54,7 +58,8 @@ router.post('/generateEmail', async (req, res) => {
 
         // Send the generated email content back to the client
         res.json({
-            message: openaiResponseText, // Return the email content (subject + body) as one string
+            subject: JSON.parse(openaiResponseText)?.subject,
+            email: JSON.parse(openaiResponseText)?.email
         });
 
     } catch (error) {

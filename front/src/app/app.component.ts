@@ -1,17 +1,18 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { UploadComponent } from './upload/upload.component';
+import { MailComponent } from './mail/mail.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, UploadComponent, MailComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'front';
-  index = 0;
+  // index = 0;
 
   // list = [
   //   {
@@ -474,74 +475,4 @@ export class AppComponent {
       email: 'info@hometownhrsolutions.com',
     },
   ];
-
-  intervalId: any;
-
-  constructor(private http: HttpClient) {}
-
-  // onClick() {
-  //   let randomDelay = 5000;
-  //   this.intervalId = setInterval(() => {
-  //     let randomDelay = Math.floor(Math.random() * (10000 - 5000 + 1)) + 5000;
-  //     this.runFN(this.list[this.index]?.email, this.list[this.index]?.name);
-  //     this.index++;
-
-  //     if (this.index >= this.list.length || this.index == 1) {
-  //       clearInterval(this.intervalId);
-  //       console.log('Interval cleared');
-  //     }
-  //   }, (randomDelay));
-  // }
-
-  onClick() {
-    this.index = 0; // Reset index each time the function is triggered
-
-    const startInterval = () => {
-      // Generate a random delay between 5000ms and 10000ms
-      let randomDelay = Math.floor(Math.random() * (30000 - 5000 + 1)) + 5000;
-
-      // Execute the function with the current list item
-      this.runFN(this.list[this.index]?.email, this.list[this.index]?.name);
-      this.index++;
-
-      // Check if we've reached the end of the list
-      if (this.index < this.list.length) {
-        // Schedule the next iteration with the new random delay
-        this.intervalId = setTimeout(startInterval, randomDelay);
-      } else {
-        // Stop when the list is exhausted
-        console.log('Interval cleared');
-      }
-    };
-
-    // Start the process
-    startInterval();
-  }
-
-  private runFN(to: string, name: string) {
-    console.log('running email', to);
-
-    this.http
-      .post('http://localhost:3000/send-email', { to: to, name: name })
-      .subscribe((res) => {
-        console.log(res);
-      });
-  }
-
-  onUpload(files: FileList | null) {
-    if (!files) return;
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-
-      const formData = new FormData();
-      formData.append('file', file, file.name);
-
-      this.http
-        .post('http://localhost:3001/api/excel/upload', formData)
-        .subscribe((res) => {
-          console.log(res);
-        });
-    }
-  }
 }
