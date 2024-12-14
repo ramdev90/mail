@@ -495,15 +495,15 @@ export class AppComponent {
 
   onClick() {
     this.index = 0; // Reset index each time the function is triggered
-  
+
     const startInterval = () => {
       // Generate a random delay between 5000ms and 10000ms
       let randomDelay = Math.floor(Math.random() * (30000 - 5000 + 1)) + 5000;
-  
+
       // Execute the function with the current list item
       this.runFN(this.list[this.index]?.email, this.list[this.index]?.name);
       this.index++;
-  
+
       // Check if we've reached the end of the list
       if (this.index < this.list.length) {
         // Schedule the next iteration with the new random delay
@@ -513,12 +513,11 @@ export class AppComponent {
         console.log('Interval cleared');
       }
     };
-  
+
     // Start the process
     startInterval();
   }
 
-  
   private runFN(to: string, name: string) {
     console.log('running email', to);
 
@@ -527,5 +526,22 @@ export class AppComponent {
       .subscribe((res) => {
         console.log(res);
       });
+  }
+
+  onUpload(files: FileList | null) {
+    if (!files) return;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      const formData = new FormData();
+      formData.append('file', file, file.name);
+
+      this.http
+        .post('http://localhost:3001/api/excel/upload', formData)
+        .subscribe((res) => {
+          console.log(res);
+        });
+    }
   }
 }

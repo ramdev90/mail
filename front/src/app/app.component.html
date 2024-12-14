@@ -1,4 +1,8 @@
-<button (click)="onClick()">send</button>
+<input type="file" name="file" id="file" #file multiple />
+<button type="button" (click)="onUpload(file.files)">Upload</button>
 
+<hr />
+
+<button (click)="onClick()">send</button>
 
 <router-outlet />
