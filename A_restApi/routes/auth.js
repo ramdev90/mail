@@ -1,30 +1,12 @@
 const express = require("express");
+require('dotenv').config()
 
 const router = express.Router();
 
 // TODO
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 const axios = require('axios');
-
-
-const authController = require("../controllers/auth");
-
-router.post("/logIn", authController.postLogin);
-// curl --location 'http://localhost:3001/api/logIn' \
-// --header 'Content-Type: application/json' \
-// --data-raw '{
-//     "email": "ramdev.r@techroversolutions.com",
-//     "password": "Ramdev"
-// }'
-
-router.post("/signUp", authController.postSingUp);
-// curl --location 'http://localhost:3001/api/signUp' \
-// --header 'Content-Type: application/json' \
-// --data-raw '{
-//     "email": "ramdev.r@techroversolutions.com",
-//     "password": "Ramdev"
-// }'
 
 
 router.post('/chat', async (req, res) => {
