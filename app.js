@@ -38,6 +38,7 @@ const authRoutesRest = require('./A_restApi/routes/auth');
 const shopRoutesRest = require('./A_restApi/routes/shop');
 const adminRoutesRest = require('./A_restApi/routes/admin');
 const mailRoutesRest = require('./A_restApi/routes/mail');
+const excelRoutesRest = require('./A_restApi/routes/excel');
 
 // Body parsing middleware for rest api
 app.use(express.json());
@@ -100,6 +101,7 @@ app.use('/api/admin', adminRoutesRest);
 
 
 app.use('/api/mail', mailRoutesRest);
+app.use('/api/excel', excelRoutesRest);
 
 // app.get('/500', errorController.get500);
 
