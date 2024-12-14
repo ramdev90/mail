@@ -99,7 +99,7 @@ app.use('/api', shopRoutesRest);
 app.use('/api/admin', adminRoutesRest);
 
 
-app.use('/api/mail', adminRoutesRest);
+app.use('/api/mail', mailRoutesRest);
 
 // app.get('/500', errorController.get500);
 
@@ -121,7 +121,7 @@ mongoose
   .connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
   .then(result => {
     console.log("db connected")
-    app.listen(3000);
+    app.listen(3001);
   })
   .catch(err => {
     console.log(err);
