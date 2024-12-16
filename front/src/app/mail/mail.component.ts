@@ -45,11 +45,11 @@ export class MailComponent {
   private generateMail(prompt: string, to: string) {
     const generatedPromt =
       `"${prompt}"` +
-      '\n\t based on this client data give me subject and email in {"email": "body of the mail in html format", subject: "here subject"} json format' +
-      '\n\t i want to automate so dont add any placeholder in mail body and give it in proper format and personalized mail' +
-      '\n\t my name is Ramdev' +
-      '\n\t im providing web development service';
-
+      '\n\t above is client data i want to send mail to client so based on this client data give me subject and personalized email in {"email": "body of the mail in html format", subject: "here subject"} json format' +
+      '\n\t dont add any placeholder in mail body and give it in proper format' +
+      '\n\t make it proffestional email and medium size mail and dont add br tag in email html body' +
+      '\n\t make it in simple language and like human written and proffestional' +
+      '\n\t my name is Ramdev im providing web development service';
     this.http
       .post('http://localhost:3001/api/generateEmail', {
         prompt: generatedPromt,

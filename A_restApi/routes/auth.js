@@ -36,8 +36,8 @@ router.post('/generateEmail', async (req, res) => {
                         "content": prompt
                     }
                 ],
-                max_tokens: 400,
-                temperature: 0.7, // Adjust the creativity level as per your requirement
+                max_tokens: 300,
+                temperature: 0.0, // Adjust the creativity level as per your requirement
             },
             {
                 headers: {
