@@ -24,7 +24,6 @@ const authRoutes = require('./routes/auth');
 
 
 const authRoutesRest = require('./A_restApi/routes/auth');
-const shopRoutesRest = require('./A_restApi/routes/shop');
 const adminRoutesRest = require('./A_restApi/routes/admin');
 const mailRoutesRest = require('./A_restApi/routes/mail');
 const excelRoutesRest = require('./A_restApi/routes/excel');
@@ -85,7 +84,6 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 app.use('/api', authRoutesRest);
-app.use('/api', shopRoutesRest);
 app.use('/api/admin', adminRoutesRest);
 
 
