@@ -107,6 +107,22 @@ exports.getEmail = async (req, res) => {
         const document = await collection.aggregate([{ $sample: { size: 1 } }]).next();
 
         if (document) {
+            if (document['Phone number']) {
+                delete document['Phone number'];
+            }
+
+            if (document['Phone country code']) {
+                delete document['Phone country code'];
+            }
+
+            if (document['Public email']) {
+                delete document['Public email'];
+            }
+        }
+
+
+
+        if (document) {
             res.json(document)
         } else {
             console.log('No document found.');
