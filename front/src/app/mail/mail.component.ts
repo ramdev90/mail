@@ -16,7 +16,7 @@ export class MailComponent {
     // this.index = 0; // Reset index each time the function is triggered
 
     const startInterval = () => {
-      let randomDelay = Math.floor(Math.random() * (30000 - 5000 + 1)) + 5000;
+      let randomDelay = Math.floor(Math.random() * (180000 - 60000 + 1)) + 60000; //max = 180000 (3 minutes in milliseconds). //min = 60000 (1 minute in milliseconds).
 
       this.getMail();
       // this.sendMail(this.list[this.index]?.email, this.list[this.index]?.name);

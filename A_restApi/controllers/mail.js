@@ -62,23 +62,8 @@ exports.sendMail = async (req, res) => {
 
         let { to, subject, message } = req.body;
 
-        to = "ramdevrathod90@gmail.com"
+        // to = "ramdevrathod90@gmail.com"
 
-
-        //     const subject = "MongoDB Certified with Expertise in Angular/Node.js - Inquiry About Software Engineer Opportunities"
-        //     const message = `
-        //    <p>Hi ${name},</p>
-
-        //   <p>I hope you're doing well. My name is Ramdev and I'm from inda, I'm reaching out to inquire about any Software Engineer opportunities. I have strong experience with Angular, with a focus on the MEAN stack (MongoDB, Express, Angular, Node.js). Additionally, I recently earned my MongoDB certification.</p>
-
-        //   <p>I'm currently exploring new opportunities and would love to learn more about the application process and how I can contribute to your team.</p>
-
-        //   <p>Thank you for your time and consideration. I look forward to hearing from you.</p>
-
-        //   <p>Best regards,<br>Ramdev<br>    
-        //   https://www.linkedin.com/in/rathod-ramdevbhai/<br>
-        //   </p>
-        //   `;
         const job = pulse.create('send email', { to, subject, message });
         await job.schedule(new Date()).save();
         res.status(200).send('Email scheduled successfully');
@@ -102,23 +87,20 @@ exports.getEmail = async (req, res) => {
         const db = client.db(dbName);
         const collection = db.collection(collectionName);
 
-        // const document = await collection.findOne({sent: 0});
         // TODO
-        const document = await collection.aggregate([{ $sample: { size: 1 } }]).next();
+        // const document = await collection.aggregate([{ $sample: { size: 1 } }]).next();
 
-        if (document) {
-            if (document['Phone number']) {
-                delete document['Phone number'];
-            }
+        const document = await collection.aggregate([
+            { $match: { sent: 0 } },
+            { $sample: { size: 1 } }
+        ]).next();
 
-            if (document['Phone country code']) {
-                delete document['Phone country code'];
-            }
+        // TODO
+        await collection.updateOne(
+            { _id: document._id },     // Match the document by its '_id'
+            { $set: { sent: 1 } }      // Update the 'sent' field to 1
+        );
 
-            if (document['Public email']) {
-                delete document['Public email'];
-            }
-        }
 
 
 
