@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 const cors = require('cors');
 require('dotenv').config()
 const User = require('./models/user');
+const { connectToDatabase } = require("./A_restApi/utils/db");
 
 const MONGODB_URI = process.env.MONGOURI;
 
@@ -24,7 +25,6 @@ const authRoutes = require('./routes/auth');
 
 
 const authRoutesRest = require('./A_restApi/routes/auth');
-const adminRoutesRest = require('./A_restApi/routes/admin');
 const mailRoutesRest = require('./A_restApi/routes/mail');
 const excelRoutesRest = require('./A_restApi/routes/excel');
 
@@ -84,7 +84,6 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 app.use('/api', authRoutesRest);
-app.use('/api/admin', adminRoutesRest);
 
 
 app.use('/api/mail', mailRoutesRest);
@@ -104,12 +103,19 @@ app.use((error, req, res, next) => {
 });
 
 
-mongoose
-  .connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
-  .then(result => {
-    console.log("db connected")
-    app.listen(3001);
-  })
-  .catch(err => {
-    console.log(err);
+// mongoose
+//   .connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
+//   .then(result => {
+//     console.log("db connected")
+//     app.listen(3001);
+//   })
+//   .catch(err => {
+//     console.log(err);
+//   });
+
+connectToDatabase().then(() => {
+  console.log("Database connected, starting server...");
+  app.listen(3001, () => {
+    console.log(`Server running on port ${3001}`);
   });
+});

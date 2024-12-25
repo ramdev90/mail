@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // MongoDB connection URI
-const mongoURI = 'mongodb+srv://admin:admin@cluster0.ighfd.mongodb.net/Shop?retryWrites=true&w=majority&appName=Cluster0short-url'; // Change this if using a remote MongoDB
+const mongoURI = process.env.MONGOURI
 const dbName = 'Shop'; // Database name
 const collectionName = 'excelData'; // Collection name
 

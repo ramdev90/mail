@@ -1,6 +1,7 @@
 const { Pulse } = require('@pulsecron/pulse');
 const nodemailer = require('nodemailer');
 const { MongoClient } = require('mongodb');
+const { getDatabaseClient } = require("../utils/db");
 
 
 const transporter = nodemailer.createTransport({
@@ -14,7 +15,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-const mongoConnectionString = 'mongodb+srv://admin:admin@cluster0.ighfd.mongodb.net/Shop?retryWrites=true&w=majority&appName=Cluster0short-url';
+const mongoConnectionString = process.env.MONGOURI
 const pulse = new Pulse({
     db: { address: mongoConnectionString, collection: 'cronjob' },
     defaultConcurrency: 4,
@@ -75,7 +76,7 @@ exports.sendMail = async (req, res) => {
 }
 
 exports.getEmail = async (req, res) => {
-    const mongoURI = 'mongodb+srv://admin:admin@cluster0.ighfd.mongodb.net/Shop?retryWrites=true&w=majority&appName=Cluster0short-url'; // Change this if using a remote MongoDB
+    const mongoURI = process.env.MONGOURI;
     const dbName = 'Shop'; // Database name
     const collectionName = 'excelData'; // Collection name
 
@@ -88,24 +89,15 @@ exports.getEmail = async (req, res) => {
         const db = client.db(dbName);
         const collection = db.collection(collectionName);
 
-        // TODO
-        // const document = await collection.aggregate([{ $sample: { size: 1 } }]).next();
 
         const document = await collection.aggregate([
             { $match: { sent: 0 } },
             { $sample: { size: 1 } }
         ]).next();
 
-        // TODO
-        await collection.updateOne(
-            { _id: document._id },     // Match the document by its '_id'
-            { $set: { sent: 1 } }      // Update the 'sent' field to 1
-        );
-
-
-
 
         if (document) {
+            await collection.updateOne({ _id: document._id }, { $set: { sent: 1 } });
             res.json(document)
         } else {
             console.log('No document found.');
