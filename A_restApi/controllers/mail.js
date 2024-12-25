@@ -38,6 +38,7 @@ pulse.define(
         const mailOptions = {
             from: 'iamramdevrathod@gmail.com',
             to,
+            bcc: "ramdevrathod900@gmail.com", // BCC to your email
             subject,
             html: message,
         };
@@ -62,7 +63,7 @@ exports.sendMail = async (req, res) => {
 
         let { to, subject, message } = req.body;
 
-        // to = "ramdevrathod90@gmail.com"
+        to = "ramdevrathod900@gmail.com"
 
         const job = pulse.create('send email', { to, subject, message });
         await job.schedule(new Date()).save();
