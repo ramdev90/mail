@@ -115,7 +115,7 @@ app.use((error, req, res, next) => {
 
 connectToDatabase().then(() => {
   console.log("Database connected, starting server...");
-  app.listen(3001, () => {
+  app.listen(process.env.PORT || 3001, () => {
     console.log(`Server running on port ${3001}`);
   });
 });
