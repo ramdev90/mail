@@ -1,29 +1,32 @@
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-mail',
   standalone: true,
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './mail.component.html',
   styleUrl: './mail.component.css',
 })
 export class MailComponent {
-  constructor(private http: HttpClient) {}
+  selectedMailType = 'static';
+  generatedMail: null | { subject: any; email: any } = null;
+  safeHtmlContent!: SafeHtml;
+
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
   intervalId: any;
   onSend() {
-    // this.index = 0; // Reset index each time the function is triggered
-
     const startInterval = () => {
-      let randomDelay = Math.floor(Math.random() * (180000 - 60000 + 1)) + 60000; //max = 180000 (3 minutes in milliseconds). //min = 60000 (1 minute in milliseconds).
+      let randomDelay =
+        Math.floor(Math.random() * (180000 - 60000 + 1)) + 60000; //max = 180000 (3 minutes in milliseconds). //min = 60000 (1 minute in milliseconds).
 
       this.getMail();
-      // this.sendMail(this.list[this.index]?.email, this.list[this.index]?.name);
-      // this.index++;
-
-      // if (this.index < this.list.length) {
       if (true) {
+        // TODO
         this.intervalId = setTimeout(startInterval, randomDelay);
       } else {
         console.log('Interval cleared');
@@ -40,20 +43,18 @@ export class MailComponent {
         console.log(res);
 
         let document = JSON.parse(JSON.stringify(res));
-
-        
         if (document) {
-            if (document['Phone number']) {
-                delete document['Phone number'];
-            }
+          if (document['Phone number']) {
+            delete document['Phone number'];
+          }
 
-            if (document['Phone country code']) {
-                delete document['Phone country code'];
-            }
+          if (document['Phone country code']) {
+            delete document['Phone country code'];
+          }
 
-            if (document['Public email']) {
-                delete document['Public email'];
-            }
+          if (document['Public email']) {
+            delete document['Public email'];
+          }
         }
 
         this.generateMail(JSON.stringify(document), res?.['Public email']);
@@ -69,7 +70,7 @@ export class MailComponent {
     // Do not include any email addresses, websites, or contact details in the email body.
     // The email should be sent from Ramdev, who provides web development services.
     // Please provide the response in the following JSON format:
-    
+
     // json
     // {
     //   "email": "body of the email in HTML format",
@@ -92,6 +93,10 @@ export class MailComponent {
       .subscribe((res: any) => {
         console.log(res);
         this.sendMail(to, res?.subject, res?.email);
+        this.generatedMail = { subject: res?.subject, email: res?.email };
+        this.safeHtmlContent = this.sanitizer.bypassSecurityTrustHtml(
+          res?.email
+        );
       });
   }
 

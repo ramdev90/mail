@@ -36,4 +36,16 @@
   </div>
 </div> -->
 
-<button (click)="onSend()">Send Mail</button>
+<!-- (change)="onChange($event)" -->
+
+<select [(ngModel)]="selectedMailType">
+  <option [value]="'static'">Static</option>
+  <option [value]="'dynamic'">Dynamic</option>
+</select>
+
+<button (click)="onSend()">{{ selectedMailType + " " }}Send Mail</button>
+
+<br /><br /><br />
+{{ generatedMail?.subject }}
+
+<div [innerHTML]="safeHtmlContent"></div>
