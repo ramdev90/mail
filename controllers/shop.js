@@ -35,19 +35,20 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.find()
-    .then(products => {
-      res.render('shop/index', {
-        prods: products,
-        pageTitle: 'Shop',
-        path: '/'
-      });
-    })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+  // Product.find()
+  //   .then(products => {
+  //     res.render('shop/index', {
+  //       prods: products,
+  //       pageTitle: 'Shop',
+  //       path: '/'
+  //     });
+  //   })
+  //   .catch(err => {
+  //     const error = new Error(err);
+  //     error.httpStatusCode = 500;
+  //     return next(error);
+  //   });
+  res.json({msg: "runing server"})
 };
 
 exports.getCart = (req, res, next) => {
