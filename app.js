@@ -19,11 +19,6 @@ const store = new MongoDBStore({
   collection: 'sessions'
 });
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
-const authRoutes = require('./routes/auth');
-
-
 const authRoutesRest = require('./A_restApi/routes/auth');
 const mailRoutesRest = require('./A_restApi/routes/mail');
 const excelRoutesRest = require('./A_restApi/routes/excel');
@@ -80,9 +75,6 @@ app.use((req, res, next) => {
     });
 });
 
-app.use('/admin', adminRoutes);
-app.use(shopRoutes);
-app.use(authRoutes);
 app.use('/api', authRoutesRest);
 
 
