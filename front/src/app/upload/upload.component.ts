@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-upload',
@@ -21,7 +22,7 @@ export class UploadComponent {
       formData.append('file', file, file.name);
 
       this.http
-        .post('http://localhost:3001/api/excel/upload', formData)
+        .post(environment.API_BASEURL + 'api/excel/upload', formData)
         .subscribe((res) => {
           console.log(res);
         });

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-mail',
@@ -38,7 +39,7 @@ export class MailComponent {
 
   private getMail() {
     this.http
-      .get('http://localhost:3001/api/mail/get-email')
+      .get(environment.API_BASEURL + '/api/mail/get-email')
       .subscribe((res: any) => {
         console.log(res);
 
@@ -87,7 +88,7 @@ export class MailComponent {
       '\n\t make email in about 80 to 120 words and dont add my contact info in email body not website not email and not phone' +
       '\n\t my name is Ramdev im providing web development service';
     this.http
-      .post('http://localhost:3001/api/generateEmail', {
+      .post(environment.API_BASEURL + '/api/generateEmail', {
         prompt: generatedPromt,
       })
       .subscribe((res: any) => {
@@ -104,7 +105,7 @@ export class MailComponent {
     console.log('running email', to);
 
     this.http
-      .post('http://localhost:3001/api/mail/send-email', {
+      .post(environment.API_BASEURL + '/api/mail/send-email', {
         to: to,
         subject: subject,
         message: message,
