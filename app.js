@@ -64,7 +64,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   // throw new Error('Sync Dummy');
-  if (!req.session.user) {
+  if (!req.session?.user) {
     return next();
   }
   User.findById(req.session.user._id)
