@@ -22,7 +22,7 @@ export class UploadComponent {
       formData.append('file', file, file.name);
 
       this.http
-        .post(environment.API_BASEURL + 'api/excel/upload', formData)
+        .post(environment.API_BASEURL + '/api/excel/upload', formData)
         .subscribe((res) => {
           console.log(res);
         });
