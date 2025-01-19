@@ -7,12 +7,6 @@ const { MongoClient } = require('mongodb');
 const path = require('path');
 
 
-// const mailController = require("../controllers/mail");
-
-
-// router.post('/send-email', mailController.sendMail);
-
-
 // Setup Multer for file upload
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -27,8 +21,8 @@ const upload = multer({ storage: storage });
 
 // MongoDB connection URI
 const mongoURI = process.env.MONGOURI
-const dbName = 'Shop'; // Database name
-const collectionName = 'excelData'; // Collection name
+const dbName = 'email'; // Database name
+const collectionName = 'up-manual-2'; // Collection name
 
 // Route to handle file upload
 router.post('/upload', upload.single('file'), async (req, res) => {

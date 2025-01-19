@@ -16,6 +16,7 @@ export class MailComponent {
   selectedMailType = 'static';
   generatedMail: null | { subject: any; email: any } = null;
   safeHtmlContent!: SafeHtml;
+  timePending = ''
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
@@ -24,6 +25,11 @@ export class MailComponent {
     const startInterval = () => {
       let randomDelay =
         Math.floor(Math.random() * (180000 - 60000 + 1)) + 60000; //max = 180000 (3 minutes in milliseconds). //min = 60000 (1 minute in milliseconds).
+
+      let minutes = Math.floor(randomDelay / 60000); // Divide by 60000 to get minutes
+      let seconds = Math.floor((randomDelay % 60000) / 1000); // Get the remaining seconds
+
+      this.timePending = minutes.toString() + ': ' + seconds.toString();
 
       this.getMail();
       if (true) {
@@ -41,8 +47,6 @@ export class MailComponent {
     this.http
       .get(environment.API_BASEURL + '/api/mail/get-email')
       .subscribe((res: any) => {
-        console.log(res);
-
         let document = JSON.parse(JSON.stringify(res));
         if (document) {
           if (document['Phone number']) {
@@ -58,28 +62,20 @@ export class MailComponent {
           }
         }
 
-        this.generateMail(JSON.stringify(document), res?.['Public email']);
+        if (this.selectedMailType === 'static') {
+          // TODO
+          document = res?.name;
+        }
+
+        this.generateMail(
+          JSON.stringify(document),
+          res?.['Public email'] || res?.email
+        );
       });
   }
 
   private generateMail(prompt: string, to: string) {
-    // `above is client leads data that I want to use for sending a professional email to the client. Based on this data, please generate an email in the following format:
-
-    // Provide the subject line and the email body in HTML format, without any placeholders.
-    // The email should be professional, concise, and in a simple, human-like tone, avoiding technical jargon or unnecessary complexity.
-    // The email body should be between 80 to 120 words, and formatted properly with appropriate paragraphs (no <br> tags).
-    // Do not include any email addresses, websites, or contact details in the email body.
-    // The email should be sent from Ramdev, who provides web development services.
-    // Please provide the response in the following JSON format:
-
-    // json
-    // {
-    //   "email": "body of the email in HTML format",
-    //   "subject": "subject of the email"
-    // }
-    // Make sure the email sounds professional and is easy to read, with a clear and polite tone`
-
-    const generatedPromt =
+    let generatedPromt =
       `"${prompt}"` +
       '\n\t above is client lead data i want to send mail to hunt the client so based on this client data give me subject and personalized email in {"email": "body of the mail in html format", subject: "here subject"} json format' +
       '\n\t dont add any placeholder in mail body and give it in proper format no email no website in email body' +
@@ -87,9 +83,15 @@ export class MailComponent {
       '\n\t make it in simple language and like human written tone and proffestional' +
       '\n\t make email in about 80 to 120 words and dont add my contact info in email body not website not email and not phone' +
       '\n\t my name is Ramdev im providing web development service';
+
+    // TODO
+    if (this.selectedMailType === 'static') {
+      generatedPromt = prompt;
+    }
     this.http
       .post(environment.API_BASEURL + '/api/generateEmail', {
         prompt: generatedPromt,
+        selectedMailType: this.selectedMailType,
       })
       .subscribe((res: any) => {
         console.log(res);

@@ -39,7 +39,7 @@ pulse.define(
         const mailOptions = {
             from: 'iamramdevrathod@gmail.com',
             to,
-            bcc: "ramdevrathod900@gmail.com", // BCC to your email
+            // bcc: "ramdevrathod900@gmail.com", // BCC to your email
             subject,
             html: message,
         };
@@ -64,8 +64,6 @@ exports.sendMail = async (req, res) => {
 
         let { to, subject, message } = req.body;
 
-        to = "ramdevrathod900@gmail.com"
-
         const job = pulse.create('send email', { to, subject, message });
         await job.schedule(new Date()).save();
         res.status(200).send('Email scheduled successfully');
@@ -77,8 +75,8 @@ exports.sendMail = async (req, res) => {
 
 exports.getEmail = async (req, res) => {
     const mongoURI = process.env.MONGOURI;
-    const dbName = 'Shop'; // Database name
-    const collectionName = 'excelData'; // Collection name
+    const dbName = 'email'; // Database name
+    const collectionName = 'up-manual-2'; // Collection name
 
     const client = new MongoClient(mongoURI);
 
