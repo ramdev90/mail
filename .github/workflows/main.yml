@@ -43,3 +43,4 @@ jobs:
           build_dir: front/dist/front
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+ 
