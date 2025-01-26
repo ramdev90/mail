@@ -5,10 +5,10 @@ const { getDatabaseClient } = require("../utils/db");
 
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    service: 'gmail',
+    host: process.env.HOST,
+    port: process.env.PORT,
+    secure: true,
+    // service: 'gmail',
     auth: {
         user: process.env.SEND_EMAIL,
         pass: process.env.SEND_EMAIL_AUTH
@@ -37,7 +37,7 @@ pulse.define(
     async (job, done) => {
         const { to, subject, message } = job.attrs.data;
         const mailOptions = {
-            from: 'iamramdevrathod@gmail.com',
+            from: process.env.SEND_EMAIL,
             to,
             // bcc: "ramdevrathod900@gmail.com", // BCC to your email
             subject,
