@@ -43,9 +43,24 @@
   <option [value]="'dynamic'">Dynamic</option>
 </select>
 
+collectionName: <input type="text" [(ngModel)]="collectionName" />
+
 <button (click)="onSend()">{{ selectedMailType + " " }}Send Mail</button>
 
 <br /><br /><br />
 {{ generatedMail?.subject }}
 
+<div *ngIf="selectedMailType === 'static'">
+  <div>Subject: <input style="width: 80%;" type="text" [(ngModel)]="staticSubject" /></div>
+<br>
+  <div>Message: <textarea style="width: 80%;" type="text" [(ngModel)]="staticMessage"></textarea>
+</div>
+
 <div [innerHTML]="safeHtmlContent"></div>
+
+
+<br /><br /><br />
+<div >
+  {{htmlContent}}
+</div>
+

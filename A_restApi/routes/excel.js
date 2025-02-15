@@ -27,8 +27,13 @@ const upload = multer({ storage: storage });
 
 // MongoDB connection URI
 const mongoURI = process.env.MONGOURI
+<<<<<<< Updated upstream
 const dbName = 'Shop'; // Database name
 const collectionName = 'excelData'; // Collection name
+=======
+const dbName = 'email'; // Database name
+const collectionName = 'general-mail'; //req.body.collectionName
+>>>>>>> Stashed changes
 
 // Route to handle file upload
 router.post('/upload', upload.single('file'), async (req, res) => {

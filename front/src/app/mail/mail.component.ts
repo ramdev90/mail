@@ -14,8 +14,23 @@ import { environment } from '../../environments/environment.development';
 })
 export class MailComponent {
   selectedMailType = 'static';
+  collectionName = '';
   generatedMail: null | { subject: any; email: any } = null;
   safeHtmlContent!: SafeHtml;
+<<<<<<< Updated upstream
+=======
+  timePending = ''
+  staticSubject = ''
+  staticMessage = ''
+  htmlContent = `<p>Dear</p>
+  <p>I hope you're doing well.</p>
+  <p>I've recently come across your agency on Upwork and was impressed by the work you're doing. As a skilled freelancer with experience in Mean stack, I believe my skills and background would be a great fit for your team.</p>
+  <p>I'm currently looking for opportunities to collaborate with agencies like yours, where I can contribute my expertise and work on exciting projects. I’d love to join your team and contribute to the success of your clients while continuing to grow professionally.</p>
+  <p>If you're open to it, I would appreciate the chance to schedule a brief call to introduce myself, share my portfolio, and discuss how I can add value to your agency's efforts. Please let me know a convenient time for you, and we can arrange a meeting via Zoom, Skype, or Google Meet, whichever works best for you.</p>
+  <p>Thank you for considering my application. I look forward to the opportunity to connect with you soon!</p>
+  <p>Best regards,</p>
+  <p>Ramdev</p>`;
+>>>>>>> Stashed changes
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
@@ -39,7 +54,7 @@ export class MailComponent {
 
   private getMail() {
     this.http
-      .get(environment.API_BASEURL + '/api/mail/get-email')
+      .get(environment.API_BASEURL + '/api/mail/get-email', {params: {collectionName: this.collectionName}})
       .subscribe((res: any) => {
         console.log(res);
 
@@ -87,9 +102,28 @@ export class MailComponent {
       '\n\t make it in simple language and like human written tone and proffestional' +
       '\n\t make email in about 80 to 120 words and dont add my contact info in email body not website not email and not phone' +
       '\n\t my name is Ramdev im providing web development service';
+<<<<<<< Updated upstream
     this.http
       .post(environment.API_BASEURL + '/api/generateEmail', {
         prompt: generatedPromt,
+=======
+
+    // TODO
+    if (this.selectedMailType === 'static') {
+      // generatedPromt = prompt;
+      this.sendMail(to, this.staticSubject, this.staticMessage);
+        this.generatedMail = { subject: this.staticSubject, email: this.staticMessage };
+        this.safeHtmlContent = this.sanitizer.bypassSecurityTrustHtml(
+          this.staticMessage
+        );
+    }
+    else {
+      this.http
+      .post(environment.API_BASEURL + '/api/generateEmail', {
+        prompt: generatedPromt,
+        selectedMailType: this.selectedMailType,
+        collectionName: this.collectionName
+>>>>>>> Stashed changes
       })
       .subscribe((res: any) => {
         console.log(res);
@@ -99,6 +133,8 @@ export class MailComponent {
           res?.email
         );
       });
+    }
+    
   }
 
   private sendMail(to: string, subject: string, message: string) {
@@ -109,6 +145,7 @@ export class MailComponent {
         to: to,
         subject: subject,
         message: message,
+        collectionName: this.collectionName
       })
       .subscribe((res) => {
         console.log(res);

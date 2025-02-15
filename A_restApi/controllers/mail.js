@@ -5,10 +5,17 @@ const { getDatabaseClient } = require("../utils/db");
 
 
 const transporter = nodemailer.createTransport({
+<<<<<<< Updated upstream
     host: "smtp.gmail.com",
     port: 587,
     secure: false,
     service: 'gmail',
+=======
+    host: process.env.HOST,
+    port: process.env.MAILPORT,
+    secure: true,
+    // service: 'gmail',
+>>>>>>> Stashed changes
     auth: {
         user: process.env.SEND_EMAIL,
         pass: process.env.SEND_EMAIL_AUTH
@@ -77,9 +84,15 @@ exports.sendMail = async (req, res) => {
 
 exports.getEmail = async (req, res) => {
     const mongoURI = process.env.MONGOURI;
+<<<<<<< Updated upstream
     const dbName = 'Shop'; // Database name
     const collectionName = 'excelData'; // Collection name
 
+=======
+    const dbName = 'email'; // Database name
+    const collectionName = req.query.collectionName || 'general-mail'; // Collection name
+    console.log(collectionName)
+>>>>>>> Stashed changes
     const client = new MongoClient(mongoURI);
 
     try {
@@ -95,8 +108,11 @@ exports.getEmail = async (req, res) => {
             { $sample: { size: 1 } }
         ]).next();
 
+        console.log(document, "doc")
+
 
         if (document) {
+            if(collectionName != 'general-mail')
             await collection.updateOne({ _id: document._id }, { $set: { sent: 1 } });
             res.json(document)
         } else {
