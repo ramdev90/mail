@@ -17,8 +17,6 @@ export class MailComponent {
   collectionName = '';
   generatedMail: null | { subject: any; email: any } = null;
   safeHtmlContent!: SafeHtml;
-<<<<<<< Updated upstream
-=======
   timePending = ''
   staticSubject = ''
   staticMessage = ''
@@ -30,7 +28,6 @@ export class MailComponent {
   <p>Thank you for considering my application. I look forward to the opportunity to connect with you soon!</p>
   <p>Best regards,</p>
   <p>Ramdev</p>`;
->>>>>>> Stashed changes
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
@@ -102,11 +99,6 @@ export class MailComponent {
       '\n\t make it in simple language and like human written tone and proffestional' +
       '\n\t make email in about 80 to 120 words and dont add my contact info in email body not website not email and not phone' +
       '\n\t my name is Ramdev im providing web development service';
-<<<<<<< Updated upstream
-    this.http
-      .post(environment.API_BASEURL + '/api/generateEmail', {
-        prompt: generatedPromt,
-=======
 
     // TODO
     if (this.selectedMailType === 'static') {
@@ -123,7 +115,6 @@ export class MailComponent {
         prompt: generatedPromt,
         selectedMailType: this.selectedMailType,
         collectionName: this.collectionName
->>>>>>> Stashed changes
       })
       .subscribe((res: any) => {
         console.log(res);
