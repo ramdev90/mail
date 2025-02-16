@@ -29,6 +29,16 @@ export class MailComponent {
   <p>Best regards,</p>
   <p>Ramdev</p>`;
 
+  generatedPromt =
+      `"${prompt}"` +
+      '\n\t above is client lead data i want to cold mail send mail to hunt the client' +
+      '\n\t so based on this client data give me subject and personalized email in {"email": "body of the mail in html format", subject: "here subject"} json format' +
+      '\n\t dont add any placeholder in mail body and give it in proper format no email no website in email body' +
+      '\n\t make it proffestional email and medium size mail and dont add br tag in email html body' +
+      '\n\t make it in simple language and like human written tone and proffestional' +
+      '\n\t make email in about 80 to 120 words and dont add my contact info in email body not website not email and not phone' +
+      '\n\t my name is Ramdev im providing web development service';
+
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
   intervalId: any;
@@ -91,18 +101,8 @@ export class MailComponent {
     // }
     // Make sure the email sounds professional and is easy to read, with a clear and polite tone`
 
-    const generatedPromt =
-      `"${prompt}"` +
-      '\n\t above is client lead data i want to send mail to hunt the client so based on this client data give me subject and personalized email in {"email": "body of the mail in html format", subject: "here subject"} json format' +
-      '\n\t dont add any placeholder in mail body and give it in proper format no email no website in email body' +
-      '\n\t make it proffestional email and medium size mail and dont add br tag in email html body' +
-      '\n\t make it in simple language and like human written tone and proffestional' +
-      '\n\t make email in about 80 to 120 words and dont add my contact info in email body not website not email and not phone' +
-      '\n\t my name is Ramdev im providing web development service';
-
     // TODO
     if (this.selectedMailType === 'static') {
-      // generatedPromt = prompt;
       this.sendMail(to, this.staticSubject, this.staticMessage);
         this.generatedMail = { subject: this.staticSubject, email: this.staticMessage };
         this.safeHtmlContent = this.sanitizer.bypassSecurityTrustHtml(
@@ -112,7 +112,7 @@ export class MailComponent {
     else {
       this.http
       .post(environment.API_BASEURL + '/api/generateEmail', {
-        prompt: generatedPromt,
+        prompt: this.generatedPromt,
         selectedMailType: this.selectedMailType,
         collectionName: this.collectionName
       })
