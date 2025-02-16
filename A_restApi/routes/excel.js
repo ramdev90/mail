@@ -25,13 +25,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// MongoDB connection URI
-const mongoURI = process.env.MONGOURI
-const dbName = 'email'; // Database name
-const collectionName = 'general-mail'; //req.body.collectionName
+
 
 // Route to handle file upload
 router.post('/upload', upload.single('file'), async (req, res) => {
+    // MongoDB connection URI
+    const mongoURI = process.env.MONGOURI
+    const dbName = 'email'; // Database name
+    const collectionName = req.body.collectionName || 'general-mail';
+    const emailKay = req.body.emailKay || 'Public email'; 
+
     try {
         console.log(req.file)
         const filePath = req.file.path;
@@ -44,7 +47,14 @@ router.post('/upload', upload.single('file'), async (req, res) => {
         // Convert sheet data to JSON
         let jsonData = XLSX.utils.sheet_to_json(sheet);
 
-        jsonData = jsonData.filter(el => el?.["Public email"]).map(el => ({ ...el, sent: 0 }));
+        // jsonData = jsonData.filter(el => el?.["Public email"]).map(el => ({ ...el, sent: 0 }));
+        jsonData = jsonData
+        .filter(el => el?.[emailKay])
+        .map(el => {
+            const emails = el[emailKay].split(','); // Split the emails by comma
+            return { ...el, "email": emails[0], sent: 0 };  // Take only the first email
+        });
+
 
         console.log(jsonData, "jsonData")
 

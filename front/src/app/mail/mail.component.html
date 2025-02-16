@@ -48,7 +48,6 @@ collectionName: <input type="text" [(ngModel)]="collectionName" />
 <button (click)="onSend()">{{ selectedMailType + " " }}Send Mail</button>
 
 <br /><br /><br />
-{{ generatedMail?.subject }}
 
 <div *ngIf="selectedMailType === 'static'">
   <div>
@@ -65,8 +64,6 @@ collectionName: <input type="text" [(ngModel)]="collectionName" />
     ></textarea>
   </div>
 
-  <div [innerHTML]="safeHtmlContent"></div>
-
   <br /><br /><br />
   <div>
     {{ htmlContent }}
@@ -80,3 +77,6 @@ collectionName: <input type="text" [(ngModel)]="collectionName" />
   </div>
   <br />
 </div>
+
+{{ generatedMail?.subject }}
+<div [innerHTML]="safeHtmlContent"></div>

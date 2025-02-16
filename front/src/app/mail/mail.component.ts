@@ -27,7 +27,7 @@ export class MailComponent {
   <p>If you're open to it, I would appreciate the chance to schedule a brief call to introduce myself, share my portfolio, and discuss how I can add value to your agency's efforts. Please let me know a convenient time for you, and we can arrange a meeting via Zoom, Skype, or Google Meet, whichever works best for you.</p>
   <p>Thank you for considering my application. I look forward to the opportunity to connect with you soon!</p>
   <p>Best regards,</p>
-  <p>Ramdev</p>`;
+  <p>QueenQuarry Team</p>`;
 
   generatedPromt =
       `"${prompt}"` +
@@ -37,7 +37,7 @@ export class MailComponent {
       '\n\t make it proffestional email and medium size mail and dont add br tag in email html body' +
       '\n\t make it in simple language and like human written tone and proffestional' +
       '\n\t make email in about 80 to 120 words and dont add my contact info in email body not website not email and not phone' +
-      '\n\t my name is Ramdev im providing web development service';
+      '\n\t QueenQuarry Team providing web development service';
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
