@@ -7,7 +7,7 @@ const { getDatabaseClient } = require("../utils/db");
 const transporter = nodemailer.createTransport({
     host: process.env.HOST,
     port: process.env.MAILPORT,
-    secure: true,
+    secure: false,
     // service: 'gmail',
     auth: {
         user: process.env.SEND_EMAIL,

@@ -73,7 +73,7 @@ export class MailComponent {
           }
         }
 
-        this.generateMail(JSON.stringify(document), res?.['Public email']);
+        this.generateMail(JSON.stringify(document), res?.['Public email'] || res?.['email']);
       });
   }
 

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { UploadComponent } from './upload/upload.component';
 import { MailComponent } from './mail/mail.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, UploadComponent, MailComponent],
+  imports: [RouterModule, UploadComponent, MailComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
